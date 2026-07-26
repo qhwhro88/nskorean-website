@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NSKOREAN | AI 工具与前沿资讯</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* 浅色科技感点阵背景 */
+    .bg-light-grid {
+      background-color: #f8fafc;
+      background-image: radial-gradient(#e2e8f0 1.2px, transparent 1.2px);
+      background-size: 24px 24px;
+    }
+    /* 亮色科技渐变字 */
+    .text-gradient {
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    /* 搜索框样式 */
+    .search-box {
+      transition: all 0.3s ease;
+    }
+    .search-box:focus-within {
+      border-color: #2563eb;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    /* 卡片悬停效果 */
+    .tool-card {
+      transition: all 0.3s ease;
+    }
+    .tool-card:hover {
+      transform: translateY(-4px);
+    }
+    /* 平滑滚动 */
+    html {
+      scroll-behavior: smooth;
+    }
+    /* 深度介绍展示 */
+    .deep-intro {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .tool-card:hover .deep-intro {
+      max-height: 200px;
+    }
+  </style>
+</head>
+<body class="bg-light-grid text-slate-800 antialiased selection:bg-blue-500 selection:text-white">
+
+  <!-- Header 导航栏 -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      
+      <!-- LOGO -->
+      <a href="index.html" class="flex items-center gap-2.5">
+        <span class="text-2xl font-black tracking-tight text-slate-900">NSKOREAN</span>
+        <span class="px-2.5 py-0.5 text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-200 rounded-full">AI Hub</span>
+      </a>
+
+      <!-- Cmd+K 极简搜索框 -->
+      <div class="hidden md:flex items-center gap-2 bg-slate-100/80 border border-slate-200 rounded-full px-4 py-1.5 text-sm text-slate-500 w-80 search-box">
+        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="text" id="searchInput" placeholder="搜索 AI 工具、工作流或资讯..." class="flex-1 bg-transparent outline-none text-slate-700 placeholder-slate-400">
+        <kbd class="ml-auto text-[10px] bg-white border border-slate-200 px-1.5 py-0.5 rounded text-slate-400 font-mono shadow-sm">⌘K</kbd>
+      </div>
+
+      <!-- 右侧按钮 -->
+      <div class="flex items-center gap-3">
+        <a href="#contact" class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-5 py-2 rounded-full transition-all shadow-sm">
+          提交 / 咨询
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero 视觉区 -->
+  <section class="relative pt-20 pb-16 px-6 max-w-5xl mx-auto text-center overflow-hidden">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[250px] bg-gradient-to-r from-blue-200/50 via-purple-200/50 to-pink-200/30 blur-3xl -z-10 rounded-full"></div>
+
+    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-blue-200 bg-blue-50/80 text-xs font-medium text-blue-700 mb-6 shadow-sm">
+      <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+      前沿 AI 工具深度讲解与实战资讯
+    </div>
+
+    <h1 class="text-4xl md:text-6xl font-black tracking-tight text-slate-900 mb-6 leading-tight">
+      深度探索与落地 <br>
+      <span class="text-gradient">下一代 AI 智能工具矩阵</span>
+    </h1>
+
+    <p class="text-slate-600 text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-8">
+      精选全球优质 AI 方案、深度工具讲解、使用案例分析与最佳实践指南。
+    </p>
+
+    <!-- 分类 Filter 标签页 -->
+    <div class="flex flex-wrap items-center justify-center gap-2 max-w-3xl mx-auto">
+      <button class="filter-btn px-4 py-2 text-xs font-semibold rounded-full bg-blue-600 text-white shadow-md shadow-blue-500/20" data-filter="all">全部 (All)</button>
+      <button class="filter-btn px-4 py-2 text-xs font-medium rounded-full bg-white text-slate-600 border border-slate-200 hover:border-slate-300 shadow-sm transition-all" data-filter="对话AI">对话AI</button>
+      <button class="filter-btn px-4 py-2 text-xs font-medium rounded-full bg-white text-slate-600 border border-slate-200 hover:border-slate-300 shadow-sm transition-all" data-filter="图像生成">图像生成</button>
+      <button class="filter-btn px-4 py-2 text-xs font-medium rounded-full bg-white text-slate-600 border border-slate-200 hover:border-slate-300 shadow-sm transition-all" data-filter="搜索工具">搜索工具</button>
+      <button class="filter-btn px-4 py-2 text-xs font-medium rounded-full bg-white text-slate-600 border border-slate-200 hover:border-slate-300 shadow-sm transition-all" data-filter="模型平台">模型平台</button>
+    </div>
+  </section>
+
+  <!-- 主内容/工具与资讯列表 -->
+  <main class="max-w-7xl mx-auto px-6 py-8">
+    <div id="toolsContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- 工具卡片将由 JavaScript 动态生成 -->
+    </div>
+  </main>
+
+  <!-- 联系/咨询表单 -->
+  <section id="contact" class="py-20 px-6 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-black mb-4 text-center">获取专业 AI 咨询方案</h2>
+      <p class="text-slate-300 text-center mb-10">填写表单，我们将在 24 小时内与您联系</p>
+      
+      <form id="contactForm" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="text" placeholder="您的名字" required class="bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:border-blue-400 transition-colors">
+          <input type="email" placeholder="您的邮箱" required class="bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:border-blue-400 transition-colors">
+        </div>
+        <textarea placeholder="您的需求或问题..." rows="4" required class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:border-blue-400 transition-colors resize-none"></textarea>
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-all shadow-lg">
+          提交咨询
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer 底部 -->
+  <footer class="border-t border-slate-200 bg-white py-10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="text-sm text-slate-500">
+        © 2026 <span class="font-bold text-slate-800">NSKOREAN</span>. All rights reserved.
+      </div>
+      <div class="flex gap-6 text-sm text-slate-500">
+        <a href="#" class="hover:text-slate-900">关于我们</a>
+        <a href="#" class="hover:text-slate-900">AI 选型咨询</a>
+        <a href="#" class="hover:text-slate-900">隐私政策</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 工具数据库（已删除价格信息，添加深度讲解）
+    const tools = [
+      {
+        id: 1,
+        name: "ChatGPT",
+        icon: "🤖",
+        category: "对话AI",
+        description: "OpenAI 开发的先进对话型 AI 助手，基于 GPT-4 模型，能够理解复杂的自然语言并进行深度对话",
+        deepIntroduction: "ChatGPT 是一个革命性的对话 AI 工具，采用了 OpenAI 最新的 GPT-4 技术。它不仅能够进行自然流畅的对话，还能够理解上下文、进行逻辑推理、编写代码、分析文本等多种任务。ChatGPT 的强大之处在于其能够理解用户的意图，并提供高质量、有针对性的回答。",
+        useCases: ["学术研究和论文写作", "代码调试和算法设计", "内容创作和文案撰写", "商务分析和决策支持", "语言学习和翻译"],
+        rating: 4.8,
+        views: 125000,
+        tags: ["对话AI", "GPT-4", "多功能", "高精度"],
+        url: "article.html?id=1"
+      },
+      {
+        id: 2,
+        name: "Claude",
+        icon: "🧠",
+        category: "对话AI",
+        description: "Anthropic 开发的安全、可靠的 AI 助手，采用宪法 AI 技术，专注于安全性和可解释性",
+        deepIntroduction: "Claude 是由 Anthropic 公司开发的先进 AI 助手，采用了创新的宪法 AI（Constitutional AI）技术。与其他 AI 助手相比，Claude 特别强调安全性、可靠性和可解释性。它能够处理长文本（支持 100K tokens），这使其特别适合处理大型文档、代码库和复杂分析任务。",
+        useCases: ["文献分析和数据解释", "代码审查和架构设计", "数据分析和趋势预测", "课程设计和教学创作", "合同分析和法律研究"],
+        rating: 4.7,
+        views: 98000,
+        tags: ["对话AI", "安全性", "长文本", "推理能力"],
+        url: "article.html?id=2"
+      },
+      {
+        id: 3,
+        name: "Midjourney",
+        icon: "🎨",
+        category: "图像生成",
+        description: "高质量 AI 图像生成工具，基于扩散模型，能够根据文本描述生成精美的艺术作品和设计",
+        deepIntroduction: "Midjourney 是一个专业级的 AI 图像生成工具，以其生成高质量、艺术感强的图像而闻名。它使用先进的扩散模型和机器学习技术，能够将文本描述转换为视觉上令人惊艳的图像。特别适合创意设计、概念艺术和视觉内容创作。",
+        useCases: ["概念设计和视觉原型", "广告图像和社交媒体内容", "艺术创作和风格实验", "游戏资产和场景设计", "电商产品展示和营销"],
+        rating: 4.6,
+        views: 87000,
+        tags: ["图像生成", "艺术创作", "高质量", "设计工具"],
+        url: "article.html?id=3"
+      },
+      {
+        id: 4,
+        name: "Stable Diffusion",
+        icon: "🖼️",
+        category: "图像生成",
+        description: "开源 AI 图像生成模型，可本地部署，提供高度的自定义和控制能力",
+        deepIntroduction: "Stable Diffusion 是一个革命性的开源 AI 图像生成模型，由 Stability AI 开发。与其他商业图像生成工具不同，Stable Diffusion 可以在本地计算机上运行，提供了完全的隐私保护和自定义能力。基于扩散模型技术，能够根据文本描述生成高质量的图像。",
+        useCases: ["自定义图像生成应用", "AI 模型研究和改进", "本地创意工作和知识保护", "企业内部图像生成系统", "创意实验和学习"],
+        rating: 4.5,
+        views: 76000,
+        tags: ["图像生成", "开源", "本地部署", "可定制"],
+        url: "article.html?id=4"
+      },
+      {
+        id: 5,
+        name: "Perplexity AI",
+        icon: "🔍",
+        category: "搜索工具",
+        description: "AI 驱动的搜索引擎，结合了搜索和对话 AI，提供实时、准确的信息检索和深度分析",
+        deepIntroduction: "Perplexity AI 是一个创新的 AI 搜索引擎，将传统搜索引擎的信息检索能力与现代对话 AI 的理解能力相结合。与 ChatGPT 等工具不同，Perplexity AI 能够访问实时网络信息，确保提供最新的、经过验证的信息。",
+        useCases: ["新闻研究和事实核查", "学术文献搜索和分析", "课题研究和信息收集", "市场研究和竞争分析", "行业动态追踪和知识更新"],
+        rating: 4.4,
+        views: 65000,
+        tags: ["搜索引擎", "实时信息", "AI搜索", "深度分析"],
+        url: "article.html?id=5"
+      },
+      {
+        id: 6,
+        name: "Hugging Face",
+        icon: "🤗",
+        category: "模型平台",
+        description: "开源 AI 模型社区和平台，提供数千个预训练模型和数据集，支持模型部署和微调",
+        deepIntroduction: "Hugging Face 是全球最大的开源 AI 模型社区和平台，汇聚了数千个预训练的深度学习模型。它提供了一个完整的生态系统，包括模型库、数据集、推理 API、模型部署工具等。Transformers 库已成为 NLP 领域的标准工具。",
+        useCases: ["NLP 和 CV 研究", "快速集成预训练模型", "模型微调和优化", "自定义 AI 解决方案构建", "深度学习学习和实践"],
+        rating: 4.7,
+        views: 92000,
+        tags: ["模型平台", "开源", "NLP", "深度学习"],
+        url: "article.html?id=6"
+      }
+    ];
+
+    // 渲染工具卡片
+    function renderTools(filter = 'all') {
+      const container = document.getElementById('toolsContainer');
+      container.innerHTML = '';
+      
+      const filtered = filter === 'all' ? tools : tools.filter(t => t.category === filter);
+      
+      filtered.forEach((tool) => {
+        // 普通工具卡片（删除价格，添加深度介绍）
+        container.innerHTML += `
+          <div class="bg-white border border-slate-200/80 rounded-2xl p-6 hover:border-blue-400 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 group tool-card">
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform">
+                ${tool.icon}
+              </div>
+              <div class="flex items-center gap-1 text-xs text-amber-600">
+                <span>⭐ ${tool.rating}</span>
+                <span class="text-slate-400">|</span>
+                <span>${(tool.views / 1000).toFixed(0)}k 浏览</span>
+              </div>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">${tool.name}</h3>
+            <p class="text-slate-500 text-sm mt-2 leading-relaxed line-clamp-2">${tool.description}</p>
+            
+            <!-- 深度介绍（悬停显示） -->
+            <div class="deep-intro mt-3 pt-3 border-t border-slate-100">
+              <p class="text-xs text-slate-600 leading-relaxed mb-2"><strong>深度讲解：</strong> ${tool.deepIntroduction.substring(0, 120)}...</p>
+              <p class="text-xs text-slate-500"><strong>使用场景：</strong> ${tool.useCases.slice(0, 2).join('、')}</p>
+            </div>
+            
+            <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+              <div class="flex gap-1.5 flex-wrap">
+                ${tool.tags.slice(0, 2).map(tag => `<span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded">${tag}</span>`).join('')}
+              </div>
+              <a href="${tool.url}" class="text-xs font-semibold text-blue-600 flex items-center gap-0.5 group-hover:translate-x-1 transition-transform">详情 &rarr;</a>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // 过滤按钮事件
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('bg-blue-600', 'text-white', 'shadow-md', 'shadow-blue-500/20');
+          b.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+        });
+        e.target.classList.add('bg-blue-600', 'text-white', 'shadow-md', 'shadow-blue-500/20');
+        e.target.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+        renderTools(e.target.dataset.filter);
+      });
+    });
+
+    // 搜索功能
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      const container = document.getElementById('toolsContainer');
+      const filtered = tools.filter(t => 
+        t.name.toLowerCase().includes(query) || 
+        t.description.toLowerCase().includes(query) ||
+        t.tags.some(tag => tag.toLowerCase().includes(query))
+      );
+      
+      container.innerHTML = '';
+      filtered.forEach(tool => {
+        container.innerHTML += `
+          <div class="bg-white border border-slate-200/80 rounded-2xl p-6 hover:border-blue-400 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 group tool-card">
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform">
+                ${tool.icon}
+              </div>
+              <div class="flex items-center gap-1 text-xs text-amber-600">
+                <span>⭐ ${tool.rating}</span>
+              </div>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">${tool.name}</h3>
+            <p class="text-slate-500 text-sm mt-2 leading-relaxed line-clamp-2">${tool.description}</p>
+            <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+              <div class="flex gap-1.5">
+                ${tool.tags.slice(0, 2).map(tag => `<span class="text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded">${tag}</span>`).join('')}
+              </div>
+              <a href="${tool.url}" class="text-xs font-semibold text-blue-600 flex items-center gap-0.5 group-hover:translate-x-1 transition-transform">详情 &rarr;</a>
+            </div>
+          </div>
+        `;
+      });
+    });
+
+    // 初始化渲染
+    renderTools();
+  </script>
+</body>
+</html>
