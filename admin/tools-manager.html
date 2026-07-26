@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>工具管理 - NSKOREAN 管理后台</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* 侧边栏 */
+    .sidebar {
+      width: 260px;
+      background: #1a1a2e;
+      color: white;
+      padding: 20px;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: #667eea;
+    }
+
+    .nav-menu {
+      list-style: none;
+    }
+
+    .nav-item {
+      margin-bottom: 10px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 12px 16px;
+      color: #b0b0b0;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: #667eea;
+      color: white;
+    }
+
+    /* 主内容 */
+    .main-content {
+      margin-left: 260px;
+      flex: 1;
+      padding: 30px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .header h1 {
+      font-size: 24px;
+      color: #1a1a2e;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+    }
+
+    .btn-secondary:hover {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    .btn-edit {
+      background: #2196f3;
+      color: white;
+    }
+
+    .btn-delete {
+      background: #f44336;
+      color: white;
+    }
+
+    /* 搜索和过滤 */
+    .filters {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .filter-select {
+      padding: 10px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      background: white;
+      transition: all 0.3s ease;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    /* 表格 */
+    .table-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: #f5f7fa;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    th {
+      padding: 16px;
+      text-align: left;
+      font-weight: 600;
+      color: #1a1a2e;
+      font-size: 14px;
+    }
+
+    td {
+      padding: 16px;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 14px;
+    }
+
+    tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .tool-name {
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .tool-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin-right: 10px;
+    }
+
+    .tool-cell {
+      display: flex;
+      align-items: center;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-published {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .status-draft {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .status-archived {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .rating {
+      color: #ffc107;
+      font-weight: 600;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* 分页 */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+      padding: 20px;
+    }
+
+    .page-btn {
+      padding: 8px 12px;
+      border: 2px solid #e0e0e0;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .page-btn:hover,
+    .page-btn.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    /* 模态框 */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #1a1a2e;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+      justify-content: flex-end;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .filters {
+        flex-direction: column;
+      }
+
+      .search-box {
+        flex: none;
+        width: 100%;
+      }
+
+      table {
+        font-size: 12px;
+      }
+
+      th, td {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+      <div class="logo">🚀 NSKOREAN</div>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link">📊 仪表板</a>
+        </li>
+        <li class="nav-item">
+          <a href="tools-manager.html" class="nav-link active">🛠️ 工具管理</a>
+        </li>
+        <li class="nav-item">
+          <a href="articles-manager.html" class="nav-link">📰 文章管理</a>
+        </li>
+        <li class="nav-item">
+          <a href="users-manager.html" class="nav-link">👥 用户管理</a>
+        </li>
+        <li class="nav-item">
+          <a href="comments-manager.html" class="nav-link">💬 评论管理</a>
+        </li>
+        <li class="nav-item">
+          <a href="analytics.html" class="nav-link">📈 数据分析</a>
+        </li>
+        <li class="nav-item">
+          <a href="settings.html" class="nav-link">⚙️ 系统设置</a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="main-content">
+      <!-- 头部 -->
+      <div class="header">
+        <h1>工具管理</h1>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="openAddToolModal()">+ 添加工具</button>
+        </div>
+      </div>
+
+      <!-- 搜索和过滤 -->
+      <div class="filters">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="搜索工具名称、描述..." onkeyup="filterTools()">
+        </div>
+        <select class="filter-select" id="categoryFilter" onchange="filterTools()">
+          <option value="">所有分类</option>
+          <option value="对话AI">对话 AI</option>
+          <option value="图像生成">图像生成</option>
+          <option value="文本生成">文本生成</option>
+          <option value="搜索引擎">搜索引擎</option>
+          <option value="模型平台">模型平台</option>
+        </select>
+        <select class="filter-select" id="statusFilter" onchange="filterTools()">
+          <option value="">所有状态</option>
+          <option value="已发布">已发布</option>
+          <option value="草稿">草稿</option>
+          <option value="已归档">已归档</option>
+        </select>
+      </div>
+
+      <!-- 工具表格 -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>工具名称</th>
+              <th>分类</th>
+              <th>评分</th>
+              <th>浏览量</th>
+              <th>状态</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="toolsTable">
+            <!-- 动态生成 -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 分页 -->
+      <div class="pagination">
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- 添加/编辑工具模态框 -->
+  <div class="modal" id="toolModal">
+    <div class="modal-content">
+      <div class="modal-header">添加新工具</div>
+      <form id="toolForm">
+        <div class="form-group">
+          <label>工具名称 *</label>
+          <input type="text" id="toolName" required>
+        </div>
+        <div class="form-group">
+          <label>工具图标 (emoji)</label>
+          <input type="text" id="toolIcon" placeholder="例如: 🤖">
+        </div>
+        <div class="form-group">
+          <label>分类 *</label>
+          <select id="toolCategory" required>
+            <option value="">选择分类</option>
+            <option value="对话AI">对话 AI</option>
+            <option value="图像生成">图像生成</option>
+            <option value="文本生成">文本生成</option>
+            <option value="搜索引擎">搜索引擎</option>
+            <option value="模型平台">模型平台</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>简短描述 *</label>
+          <input type="text" id="toolDesc" required>
+        </div>
+        <div class="form-group">
+          <label>详细描述</label>
+          <textarea id="toolLongDesc"></textarea>
+        </div>
+        <div class="form-group">
+          <label>官方网址 *</label>
+          <input type="url" id="toolUrl" required>
+        </div>
+        <div class="form-group">
+          <label>定价</label>
+          <input type="text" id="toolPrice" placeholder="例如: 免费/付费">
+        </div>
+        <div class="form-group">
+          <label>状态</label>
+          <select id="toolStatus">
+            <option value="已发布">已发布</option>
+            <option value="草稿">草稿</option>
+            <option value="已归档">已归档</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeToolModal()">取消</button>
+          <button type="submit" class="btn btn-primary">保存工具</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // 示例工具数据
+    const tools = [
+      {
+        id: 1,
+        name: 'ChatGPT',
+        icon: '🤖',
+        category: '对话AI',
+        desc: 'OpenAI 的先进语言模型',
+        rating: 4.8,
+        views: 5200,
+        status: '已发布'
+      },
+      {
+        id: 2,
+        name: 'Midjourney',
+        icon: '🎨',
+        category: '图像生成',
+        desc: 'AI 艺术生成工具',
+        rating: 4.9,
+        views: 8100,
+        status: '已发布'
+      },
+      {
+        id: 3,
+        name: 'Claude',
+        icon: '🧠',
+        category: '对话AI',
+        desc: 'Anthropic 的 AI 助手',
+        rating: 4.7,
+        views: 6800,
+        status: '已发布'
+      }
+    ];
+
+    // 初始化表格
+    function initTable() {
+      renderTable(tools);
+    }
+
+    // 渲染表格
+    function renderTable(data) {
+      const tbody = document.getElementById('toolsTable');
+      tbody.innerHTML = data.map(tool => `
+        <tr>
+          <td>
+            <div class="tool-cell">
+              <div class="tool-icon">${tool.icon}</div>
+              <span class="tool-name">${tool.name}</span>
+            </div>
+          </td>
+          <td>${tool.category}</td>
+          <td><span class="rating">⭐ ${tool.rating}</span></td>
+          <td>${tool.views.toLocaleString()}</td>
+          <td>
+            <span class="status-badge status-${tool.status === '已发布' ? 'published' : tool.status === '草稿' ? 'draft' : 'archived'}">
+              ${tool.status}
+            </span>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-sm btn-edit" onclick="editTool(${tool.id})">编辑</button>
+              <button class="btn btn-sm btn-delete" onclick="deleteTool(${tool.id})">删除</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // 过滤工具
+    function filterTools() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const category = document.getElementById('categoryFilter').value;
+      const status = document.getElementById('statusFilter').value;
+
+      const filtered = tools.filter(tool => {
+        const matchSearch = tool.name.toLowerCase().includes(searchTerm) || 
+                          tool.desc.toLowerCase().includes(searchTerm);
+        const matchCategory = !category || tool.category === category;
+        const matchStatus = !status || tool.status === status;
+        return matchSearch && matchCategory && matchStatus;
+      });
+
+      renderTable(filtered);
+    }
+
+    // 打开添加工具模态框
+    function openAddToolModal() {
+      document.getElementById('toolModal').classList.add('active');
+      document.getElementById('toolForm').reset();
+    }
+
+    // 关闭模态框
+    function closeToolModal() {
+      document.getElementById('toolModal').classList.remove('active');
+    }
+
+    // 编辑工具
+    function editTool(id) {
+      const tool = tools.find(t => t.id === id);
+      if (tool) {
+        document.getElementById('toolName').value = tool.name;
+        document.getElementById('toolIcon').value = tool.icon;
+        document.getElementById('toolCategory').value = tool.category;
+        document.getElementById('toolDesc').value = tool.desc;
+        document.getElementById('toolStatus').value = tool.status;
+        openAddToolModal();
+      }
+    }
+
+    // 删除工具
+    function deleteTool(id) {
+      if (confirm('确定要删除这个工具吗？')) {
+        const index = tools.findIndex(t => t.id === id);
+        if (index > -1) {
+          tools.splice(index, 1);
+          renderTable(tools);
+          alert('工具已删除');
+        }
+      }
+    }
+
+    // 表单提交
+    document.getElementById('toolForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('工具已保存！');
+      closeToolModal();
+      initTable();
+    });
+
+    // 初始化
+    initTable();
+  </script>
+</body>
+</html>

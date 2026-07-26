@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文章管理 - NSKOREAN 管理后台</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: #1a1a2e;
+      color: white;
+      padding: 20px;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: #667eea;
+    }
+
+    .nav-menu {
+      list-style: none;
+    }
+
+    .nav-item {
+      margin-bottom: 10px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 12px 16px;
+      color: #b0b0b0;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: #667eea;
+      color: white;
+    }
+
+    .main-content {
+      margin-left: 260px;
+      flex: 1;
+      padding: 30px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .header h1 {
+      font-size: 24px;
+      color: #1a1a2e;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    .btn-edit {
+      background: #2196f3;
+      color: white;
+    }
+
+    .btn-delete {
+      background: #f44336;
+      color: white;
+    }
+
+    .btn-publish {
+      background: #4caf50;
+      color: white;
+    }
+
+    .filters {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .filter-select {
+      padding: 10px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      background: white;
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .article-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      border: 1px solid #e0e0e0;
+    }
+
+    .article-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .article-image {
+      width: 100%;
+      height: 160px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+    }
+
+    .article-content {
+      padding: 20px;
+    }
+
+    .article-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #1a1a2e;
+      line-height: 1.4;
+    }
+
+    .article-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .article-status {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .status-published {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .status-draft {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .article-excerpt {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 15px;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .article-footer {
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 15px;
+    }
+
+    .article-footer button {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 700px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #1a1a2e;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+      justify-content: flex-end;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .articles-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+      <div class="logo">🚀 NSKOREAN</div>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link">📊 仪表板</a>
+        </li>
+        <li class="nav-item">
+          <a href="tools-manager.html" class="nav-link">🛠️ 工具管理</a>
+        </li>
+        <li class="nav-item">
+          <a href="articles-manager.html" class="nav-link active">📰 文章管理</a>
+        </li>
+        <li class="nav-item">
+          <a href="users-manager.html" class="nav-link">👥 用户管理</a>
+        </li>
+        <li class="nav-item">
+          <a href="comments-manager.html" class="nav-link">💬 评论管理</a>
+        </li>
+        <li class="nav-item">
+          <a href="analytics.html" class="nav-link">📈 数据分析</a>
+        </li>
+        <li class="nav-item">
+          <a href="settings.html" class="nav-link">⚙️ 系统设置</a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="main-content">
+      <!-- 头部 -->
+      <div class="header">
+        <h1>文章管理</h1>
+        <button class="btn btn-primary" onclick="openArticleModal()">+ 发布新文章</button>
+      </div>
+
+      <!-- 搜索和过滤 -->
+      <div class="filters">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="搜索文章标题..." onkeyup="filterArticles()">
+        </div>
+        <select class="filter-select" id="statusFilter" onchange="filterArticles()">
+          <option value="">所有状态</option>
+          <option value="已发布">已发布</option>
+          <option value="草稿">草稿</option>
+        </select>
+      </div>
+
+      <!-- 文章网格 -->
+      <div class="articles-grid" id="articlesGrid">
+        <!-- 动态生成 -->
+      </div>
+    </main>
+  </div>
+
+  <!-- 发布文章模态框 -->
+  <div class="modal" id="articleModal">
+    <div class="modal-content">
+      <div class="modal-header">发布新文章</div>
+      <form id="articleForm">
+        <div class="form-group">
+          <label>文章标题 *</label>
+          <input type="text" id="articleTitle" required>
+        </div>
+        <div class="form-group">
+          <label>文章摘要 *</label>
+          <textarea id="articleExcerpt" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>文章内容 *</label>
+          <textarea id="articleContent" required style="min-height: 200px;"></textarea>
+        </div>
+        <div class="form-group">
+          <label>作者 *</label>
+          <input type="text" id="articleAuthor" required>
+        </div>
+        <div class="form-group">
+          <label>分类</label>
+          <select id="articleCategory">
+            <option value="">选择分类</option>
+            <option value="技术">技术</option>
+            <option value="资讯">资讯</option>
+            <option value="教程">教程</option>
+            <option value="案例">案例</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>状态</label>
+          <select id="articleStatus">
+            <option value="草稿">草稿</option>
+            <option value="已发布">已发布</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeArticleModal()">取消</button>
+          <button type="submit" class="btn btn-primary">发布文章</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // 示例文章数据
+    const articles = [
+      {
+        id: 1,
+        title: '2024 年最值得关注的 AI 工具排行榜',
+        excerpt: '本文汇总了 2024 年最受欢迎和最有潜力的 AI 工具...',
+        author: '编辑部',
+        views: 5200,
+        status: '已发布',
+        date: '2024-07-20'
+      },
+      {
+        id: 2,
+        title: '如何使用 ChatGPT 提高工作效率',
+        excerpt: '深度指南：学习如何利用 ChatGPT 的各种功能...',
+        author: '技术博主',
+        views: 8100,
+        status: '已发布',
+        date: '2024-07-19'
+      },
+      {
+        id: 3,
+        title: 'AI 图像生成工具对比：Midjourney vs Stable Diffusion',
+        excerpt: '详细对比两个最受欢迎的 AI 图像生成工具...',
+        author: '设计师',
+        views: 6800,
+        status: '已发布',
+        date: '2024-07-18'
+      }
+    ];
+
+    // 初始化
+    function initArticles() {
+      renderArticles(articles);
+    }
+
+    // 渲染文章
+    function renderArticles(data) {
+      const grid = document.getElementById('articlesGrid');
+      grid.innerHTML = data.map(article => `
+        <div class="article-card">
+          <div class="article-image">📰</div>
+          <div class="article-content">
+            <div class="article-title">${article.title}</div>
+            <div class="article-meta">
+              <span>${article.author}</span>
+              <span class="article-status status-${article.status === '已发布' ? 'published' : 'draft'}">
+                ${article.status}
+              </span>
+            </div>
+            <div class="article-excerpt">${article.excerpt}</div>
+            <div class="article-footer">
+              <button class="btn btn-edit btn-sm" onclick="editArticle(${article.id})">编辑</button>
+              <button class="btn btn-delete btn-sm" onclick="deleteArticle(${article.id})">删除</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 过滤文章
+    function filterArticles() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const status = document.getElementById('statusFilter').value;
+
+      const filtered = articles.filter(article => {
+        const matchSearch = article.title.toLowerCase().includes(searchTerm);
+        const matchStatus = !status || article.status === status;
+        return matchSearch && matchStatus;
+      });
+
+      renderArticles(filtered);
+    }
+
+    // 打开文章模态框
+    function openArticleModal() {
+      document.getElementById('articleModal').classList.add('active');
+      document.getElementById('articleForm').reset();
+    }
+
+    // 关闭模态框
+    function closeArticleModal() {
+      document.getElementById('articleModal').classList.remove('active');
+    }
+
+    // 编辑文章
+    function editArticle(id) {
+      const article = articles.find(a => a.id === id);
+      if (article) {
+        document.getElementById('articleTitle').value = article.title;
+        document.getElementById('articleExcerpt').value = article.excerpt;
+        document.getElementById('articleAuthor').value = article.author;
+        document.getElementById('articleStatus').value = article.status;
+        openArticleModal();
+      }
+    }
+
+    // 删除文章
+    function deleteArticle(id) {
+      if (confirm('确定要删除这篇文章吗？')) {
+        const index = articles.findIndex(a => a.id === id);
+        if (index > -1) {
+          articles.splice(index, 1);
+          renderArticles(articles);
+          alert('文章已删除');
+        }
+      }
+    }
+
+    // 表单提交
+    document.getElementById('articleForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('文章已发布！');
+      closeArticleModal();
+      initArticles();
+    });
+
+    // 初始化
+    initArticles();
+  </script>
+</body>
+</html>
