@@ -1,0 +1,11 @@
+# 重定向旧首页到新首页（无价格版本）
+/index.html /index-no-pricing.html 301
+
+# 重定向根路径到无价格版本
+/ /index-no-pricing.html 200
+
+# 保留其他页面的正常访问
+/article.html /article.html 200
+/features.html /features.html 200
+/admin/* /admin/index.html 200
+/auth/* /auth/index.html 200

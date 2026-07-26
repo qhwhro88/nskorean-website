@@ -4,6 +4,10 @@ account_id = ""
 workers_dev = true
 route = ""
 zone_id = ""
+main = "index.js"
+
+# Cloudflare Pages 配置
+pages_build_caching = true
 
 [env.production]
 name = "nskorean-website-prod"
@@ -11,10 +15,15 @@ route = "nskorean.com/*"
 zone_id = ""
 
 [build]
-command = "npm run build"
+command = ""
 cwd = "./"
-watch_paths = ["src/**/*.js"]
+watch_paths = ["*.html", "data/**/*", "admin/**/*", "auth/**/*"]
 
 [build.upload]
 format = "modules"
 main = "./index.js"
+
+# 环境变量配置
+[env.production.vars]
+ENVIRONMENT = "production"
+API_URL = "https://api.nskorean.com"
