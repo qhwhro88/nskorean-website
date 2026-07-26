@@ -1,0 +1,20 @@
+name = "nskorean-website"
+type = "javascript"
+account_id = ""
+workers_dev = true
+route = ""
+zone_id = ""
+
+[env.production]
+name = "nskorean-website-prod"
+route = "nskorean.com/*"
+zone_id = ""
+
+[build]
+command = "npm run build"
+cwd = "./"
+watch_paths = ["src/**/*.js"]
+
+[build.upload]
+format = "modules"
+main = "./index.js"

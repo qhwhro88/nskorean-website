@@ -323,3 +323,23 @@
   </script>
 </body>
 </html>
+
+<!-- 工具评论小部件脚本 -->
+<script src="tool-comments.js"></script>
+<script>
+  // 在工具卡片加载后初始化评论小部件
+  document.addEventListener('DOMContentLoaded', () => {
+    // 为每个工具卡片添加评论小部件
+    const toolCards = document.querySelectorAll('.tool-card');
+    toolCards.forEach((card, index) => {
+      const toolId = index + 1;
+      const widget = new ToolCommentWidget(toolId);
+      
+      // 在卡片底部添加评论统计
+      const commentDiv = document.createElement('div');
+      commentDiv.className = 'mt-4 pt-4 border-t border-slate-100';
+      commentDiv.innerHTML = widget.renderMiniWidget();
+      card.appendChild(commentDiv);
+    });
+  });
+</script>

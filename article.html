@@ -317,17 +317,30 @@ product photography, commercial, 8k"
     </div>
   </footer>
 
-  <script src="comments.js"></script>
+  <script src="comments-advanced.js"></script>
   <script>
     // 代码高亮
     document.querySelectorAll('.code-block').forEach(block => {
       hljs.highlightElement(block);
     });
 
-    // 初始化评论系统
+    // 初始化高级评论系统
     document.addEventListener('DOMContentLoaded', () => {
-      const commentSystem = new CommentSystem('commentsContainer');
+      const commentSystem = new AdvancedCommentSystem('commentsContainer', {
+        enableEmail: true,
+        enableNotifications: true
+      });
       commentSystem.render();
+
+      // 监听新评论事件
+      document.addEventListener('newComment', (e) => {
+        console.log('新评论:', e.detail);
+      });
+
+      // 订阅浏览器通知权限
+      if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+      }
     });
   </script>
 </body>
