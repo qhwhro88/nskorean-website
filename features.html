@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高级功能 - NSKOREAN | AI 工具与前沿资讯</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .bg-light-grid {
+      background-color: #f8fafc;
+      background-image: radial-gradient(#e2e8f0 1.2px, transparent 1.2px);
+      background-size: 24px 24px;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .feature-card {
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.1);
+    }
+    .code-block {
+      background-color: #1e293b;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    .toc-item {
+      padding: 0.5rem 0;
+      border-left: 2px solid transparent;
+      padding-left: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .toc-item:hover {
+      border-left-color: #2563eb;
+      color: #2563eb;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="bg-light-grid text-slate-800 antialiased">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-2xl font-black tracking-tight text-slate-900">NSKOREAN</a>
+        <span class="px-2.5 py-0.5 text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-200 rounded-full">功能文档</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900">← 返回首页</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative py-16 px-6 max-w-5xl mx-auto text-center">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-6">
+      高级功能文档
+    </h1>
+    <p class="text-slate-600 text-lg max-w-2xl mx-auto mb-8">
+      完整的功能介绍、API 参考和最佳实践指南
+    </p>
+  </section>
+
+  <!-- 主内容 -->
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      
+      <!-- 目录侧边栏 -->
+      <aside class="lg:col-span-1">
+        <div class="sticky top-24 bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm">
+          <h3 class="font-bold text-slate-900 mb-4">目录</h3>
+          <nav class="space-y-2 text-sm">
+            <a href="#search-filter" class="toc-item text-slate-600 hover:text-blue-600">搜索和过滤</a>
+            <a href="#interaction" class="toc-item text-slate-600 hover:text-blue-600">互动功能</a>
+            <a href="#notifications" class="toc-item text-slate-600 hover:text-blue-600">邮件通知</a>
+            <a href="#spam-protection" class="toc-item text-slate-600 hover:text-blue-600">防垃圾机制</a>
+            <a href="#tool-comments" class="toc-item text-slate-600 hover:text-blue-600">工具评论</a>
+            <a href="#analytics" class="toc-item text-slate-600 hover:text-blue-600">高级统计</a>
+            <a href="#realtime" class="toc-item text-slate-600 hover:text-blue-600">实时通知</a>
+            <a href="#api-reference" class="toc-item text-slate-600 hover:text-blue-600">API 参考</a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- 主文档 -->
+      <main class="lg:col-span-3 space-y-12">
+
+        <!-- 搜索和过滤 -->
+        <section id="search-filter" class="bg-white border border-slate-200/80 rounded-2xl p-8 shadow-sm">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">📚 评论搜索和过滤</h2>
+          <p class="text-slate-600 mb-6">用户可以通过多种方式搜索和过滤评论，快速找到最相关的内容。</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div class="feature-card bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h4 class="font-bold text-blue-900 mb-2">🔍 文本搜索</h4>
+              <p class="text-sm text-blue-800">按用户名、邮箱、内容搜索评论</p>
+            </div>
+            <div class="feature-card bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <h4 class="font-bold text-purple-900 mb-2">⭐ 评分过滤</h4>
+              <p class="text-sm text-purple-800">按 1-5 星评分快速过滤</p>
+            </div>
+            <div class="feature-card bg-green-50 border border-green-200 rounded-lg p-4">
+              <h4 class="font-bold text-green-900 mb-2">🏷️ 类型过滤</h4>
+              <p class="text-sm text-green-800">最佳、认证、有用评论</p>
+            </div>
+            <div class="feature-card bg-orange-50 border border-orange-200 rounded-lg p-4">
+              <h4 class="font-bold text-orange-900 mb-2">📊 6 种排序</h4>
+              <p class="text-sm text-orange-800">最新、最热、评分等多种排序</p>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-slate-900 mb-3">使用示例</h3>
+          <div class="code-block">
+const commentSystem = new AdvancedCommentSystem('commentsContainer');
+
+// 搜索评论
+commentSystem.searchQuery = '很好用';
+commentSystem.render();
+
+// 按评分过滤
+commentSystem.ratingFilter = 5;
+commentSystem.render();
+
+// 按类型过滤
+commentSystem.filterType = 'best';
+commentSystem.render();
+
+// 排序
+commentSystem.sortType = 'most-liked';
+commentSystem.render();
+          </div>
+        </section>
+
+        <!-- 互动功能 -->
+        <section id="interaction" class="bg-white border border-slate-200/80 rounded-2xl p-8 shadow-sm">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">👍 互动功能</h2>
+          <p class="text-slate-600 mb-6">用户可以通过点赞、投票等方式与评论互动，提高社区参与度。</p>
+
+          <div class="space-y-6">
+            <div class="border-l-4 border-blue-500 pl-4">
+              <h4 class="font-bold text-slate-900 mb-2">点赞功能</h4>
+              <p class="text-slate-600 mb-3">用户可以对评论点赞，点赞数实时更新</p>
+              <div class="code-block">
+const likeCount = commentSystem.likeComment(commentId);
+console.log(`点赞数: ${likeCount}`);
+              </div>
+            </div>
+
+            <div class="border-l-4 border-green-500 pl-4">
+              <h4 class="font-bold text-slate-900 mb-2">有用性投票</h4>
+              <p class="text-slate-600 mb-3">标记评论是否有用，帮助其他用户快速找到最有价值的内容</p>
+              <div class="code-block">
+// 标记为有用
+const helpfulCount = commentSystem.markHelpful(commentId);
+
+// 标记为无用
+const notHelpfulCount = commentSystem.markNotHelpful(commentId);
+              </div>
+            </div>
+
+            <div class="border-l-4 border-yellow-500 pl-4">
+              <h4 class="font-bold text-slate-900 mb-2">最佳评论标记</h4>
+              <p class="text-slate-600 mb-3">管理员可以标记最佳评论，突出优质内容</p>
+              <div class="code-block">
+// 标记为最佳（需要密码）
+commentSystem.markBest(commentId, 'admin123');
+
+// 取消标记
+commentSystem.markBest(commentId, 'admin123');
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 邮件通知 -->
+        <section id="notifications" class="bg-white border border-slate-200/80 rounded-2xl p-8 shadow-sm">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">📧 邮件通知系统</h2>
+          <p class="text-slate-600 mb-6">系统支持自动邮件通知，保持用户参与度。</p>
+
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <p class="text-sm text-blue-900">
+              <strong>支持两种通知：</strong>
+              <br>1. 新评论通知 - 当有新评论时通知管理员
+              <br>2. 回复通知 - 当评论有回复时通知评论者
+            </p>
+          </div>
+
+          <h3 class="text-lg font-bold text-slate-900 mb-3">配置方式</h3>
+          <div class="code-block">
+const commentSystem = new AdvancedCommentSystem('commentsContainer', {
+  enableEmail: true,
+  enableNotifications: true
+});
+          </div>
+
+          <h3 class="text-lg font-bold text-slate-900 mb-3 mt-6">集成 FormSubmit</h3>
+          <p class="text-slate-600 mb-3">无需后端的邮件服务，直接发送到您的邮箱</p>
+          <div class="code-block">
+fetch('https://formsubmit.co/admin@nskorean.com', {
+  method: 'POST',
+  body: formData
+});
+          </div>
+        </section>
+
+        <!-- 防垃圾机制 -->
+        <section id="spam-protection" class="bg-white border border-slate-200/80 rounded-2xl p-8 shadow-sm">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">🛡️ 防垃圾机制</h2>
+          <p class="text-slate-600 mb-6">多层防护确保评论质量，防止滥用和垃圾内容。</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+              <h4 class="font-bold text-red-900 mb-2">📧 邮箱验证</h4>
+              <p class="text-sm text-red-800">验证邮箱格式和真实性</p>
+            </div>
+            <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+              <h4 class="font-bold text-orange-900 mb-2">🔄 重复检测</h4>
+              <p class="text-sm text-orange-800">防止 1 分钟内重复提交</p>
+            </div>
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <h4 class="font-bold text-yellow-900 mb-2">🚫 垃圾检测</h4>
+              <p class="text-sm text-yellow-800">识别常见垃圾关键词</p>
+            </div>
+            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <h4 class="font-bold text-purple-900 mb-2">🤖 reCAPTCHA</h4>
+              <p class="text-sm text-purple-800">Google reCAPTCHA v3 防机器人</p>
+            </div>
+          </div>
+
+          <h3 class="text-lg font-bold text-slate-900 mb-3">启用 reCAPTCHA</h3>
+          <div class="code-block">
+const commentSystem = new AdvancedCommentSystem('commentsContainer', {
+  enableRecaptcha: true,
+  recaptchaKey: 'YOUR_RECAPTCHA_SITE_KEY'
+});
+          </div>
+        </section>
+
+        <!-- 工具页面评论 -->
+        <section id="tool-comments" class="bg-white border border-slate-200/80 rounded-2xl p-8 shadow-sm">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">🔧 工具页面评论</h2>
+          <p class="text-slate-600 mb-6">在首页工具卡片上显示评论统计和快速评论。</p>
+
+          <h3 class="text-lg font-bold text-slate-900 mb-3">迷你小部件</h3>
+          <p class="text-slate-600 mb-3">在工具卡片上显示评分和评论数</p>
+          <div class="code-block">
+const widget = new ToolCommentWidget(1);
+document.getElementById('toolComments-1').innerHTML = widget.renderMiniWidget();
+// 输出: ★ 4.5 (12 条评价)
+          </div>
+
+          <h3 class="text-lg font-bold text-slate-900 mb-3 mt-6">详细小部件</h3>
+          <p class="text-slate-600 mb-3">显示完整的评论统计和最近评论</p>
+          <div class="code-block">
+widget.renderDetailedWidget();
+// 输出: 评分分布、最近 3 条评论、查看全部按钮
+          </div>
+        </section>
+
+        <!-- 高级统计 -->
+        <section id="analytics" class="bg-white border border-slate-200/80 rounded-2xl p-8 shadow-sm">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">📈 高级统计分析</h2>
+          <p class="text-slate-600 mb-6">获取详细的评论数据和分析指标。</p>
+
+          <h3 class="text-lg font-bold text-slate-900 mb-3">获取统计信息</h3>
+          <div class="code-block">
+const stats = commentSystem.getStats();
+
+console.log(stats);
+// 输出:
+// {
+//   totalComments: 25,
+//   avgRating: 4.5,
+//   ratingDistribution: { 5: 10, 4: 8, 3: 5, 2: 1, 1: 1 },
+//   totalReplies: 15,
+//   totalLikes: 45,
+//   bestCommentCount: 3,
+//   verifiedCount: 8,
+//   engagementRate: 2.4
+// }
+          </div>
+
+          <h3 class="text-lg font-bold text-slate-900 mb-3 mt-6">热门评论</h3>
+          <div class="code-block">
+const hotComments = commentSystem.getHotComments(5);
+// 获取基于点赞、有用性、回复数的前 5 条热门评论
+          </div>
+
+          <h3 class="text-lg font-bold text-slate-900 mb-3 mt-6">按工具统计</h3>
+          <div class="code-block">
+const toolComments = commentSystem.getCommentsByTool(toolId);
+// 获取特定工具的所有评论
+          </div>
+        </section>
+
+        <!-- 实时通知 -->
+        <section id="realtime" class="bg-white border border-slate-200/80 rounded-2xl p-8 shadow-sm">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">🔔 实时通知系统</h2>
+          <p class="text-slate-600 mb-6">当有新评论时，系统会发送浏览器通知。</p>
+
+          <h3 class="text-lg font-bold text-slate-900 mb-3">浏览器通知</h3>
+          <div class="code-block">
+// 请求通知权限
+if ('Notification' in window) {
+  Notification.requestPermission();
+}
+
+// 监听新评论事件
+document.addEventListener('newComment', (e) => {
+  console.log('新评论:', e.detail);
+  
+  if (Notification.permission === 'granted') {
+    new Notification('新评论', {
+      body: e.detail.content,
+      icon: '⭐'
+    });
+  }
+});
+          </div>
+
+          <h3 class="text-lg font-bold text-slate-900 mb-3 mt-6">自定义事件</h3>
+          <p class="text-slate-600 mb-3">系统会触发自定义事件，可以在应用中监听</p>
+          <div class="code-block">
+// 新评论事件
+document.addEventListener('newComment', (e) => {
+  console.log('新评论:', e.detail);
+});
+
+// 其他事件
+// - newReply: 新回复
+// - newLike: 新点赞
+// - newVote: 新投票
+          </div>
+        </section>
+
+        <!-- API 参考 -->
+        <section id="api-reference" class="bg-white border border-slate-200/80 rounded-2xl p-8 shadow-sm">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">📚 API 参考</h2>
+
+          <h3 class="text-lg font-bold text-slate-900 mb-3">AdvancedCommentSystem</h3>
+
+          <div class="overflow-x-auto mb-6">
+            <table class="w-full text-sm">
+              <thead class="bg-slate-100">
+                <tr>
+                  <th class="px-4 py-2 text-left font-bold">方法</th>
+                  <th class="px-4 py-2 text-left font-bold">描述</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200">
+                <tr>
+                  <td class="px-4 py-2 font-mono text-blue-600">addComment(data)</td>
+                  <td class="px-4 py-2">添加新评论</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-mono text-blue-600">addReply(commentId, data)</td>
+                  <td class="px-4 py-2">添加回复</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-mono text-blue-600">likeComment(commentId)</td>
+                  <td class="px-4 py-2">点赞评论</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-mono text-blue-600">markHelpful(commentId)</td>
+                  <td class="px-4 py-2">标记为有用</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-mono text-blue-600">markNotHelpful(commentId)</td>
+                  <td class="px-4 py-2">标记为无用</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-mono text-blue-600">markBest(commentId, password)</td>
+                  <td class="px-4 py-2">标记为最佳</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-mono text-blue-600">searchComments(query)</td>
+                  <td class="px-4 py-2">搜索评论</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-mono text-blue-600">getStats()</td>
+                  <td class="px-4 py-2">获取统计信息</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-mono text-blue-600">getHotComments(limit)</td>
+                  <td class="px-4 py-2">获取热门评论</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-mono text-blue-600">render()</td>
+                  <td class="px-4 py-2">渲染评论系统</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="text-lg font-bold text-slate-900 mb-3">配置选项</h3>
+          <div class="code-block">
+const commentSystem = new AdvancedCommentSystem('containerId', {
+  enableEmail: true,              // 启用邮件通知
+  enableRecaptcha: false,         // 启用 reCAPTCHA
+  recaptchaKey: '',               // reCAPTCHA Site Key
+  enableNotifications: true       // 启用浏览器通知
+});
+          </div>
+        </section>
+
+        <!-- 最佳实践 -->
+        <section class="bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-200 rounded-2xl p-8">
+          <h2 class="text-3xl font-bold text-slate-900 mb-6">💡 最佳实践</h2>
+
+          <div class="space-y-4">
+            <div class="flex gap-4">
+              <span class="text-2xl">💾</span>
+              <div>
+                <h4 class="font-bold text-slate-900 mb-1">定期备份数据</h4>
+                <p class="text-slate-600 text-sm">定期导出评论数据，防止数据丢失</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <span class="text-2xl">🧹</span>
+              <div>
+                <h4 class="font-bold text-slate-900 mb-1">定期清理垃圾</h4>
+                <p class="text-slate-600 text-sm">删除超过一定时间的垃圾评论</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <span class="text-2xl">📊</span>
+              <div>
+                <h4 class="font-bold text-slate-900 mb-1">监控评论质量</h4>
+                <p class="text-slate-600 text-sm">计算评论质量分数，识别优质内容</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <span class="text-2xl">✅</span>
+              <div>
+                <h4 class="font-bold text-slate-900 mb-1">实现审核工作流</h4>
+                <p class="text-slate-600 text-sm">在发布前审核敏感评论</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16 px-6 mt-20">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">准备好了吗？</h2>
+      <p class="text-lg mb-8 text-blue-100">立即开始使用 NSKOREAN 的高级评论系统</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="article.html" class="bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-blue-50 transition-colors">
+          查看评论系统
+        </a>
+        <a href="index.html" class="border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white/10 transition-colors">
+          返回首页
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white py-10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="text-sm text-slate-500">
+        © 2026 <span class="font-bold text-slate-800">NSKOREAN</span>. All rights reserved.
+      </div>
+      <div class="flex gap-6 text-sm text-slate-500">
+        <a href="#" class="hover:text-slate-900">关于我们</a>
+        <a href="#" class="hover:text-slate-900">高级功能</a>
+        <a href="#" class="hover:text-slate-900">隐私政策</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // 代码块复制功能
+    document.querySelectorAll('.code-block').forEach(block => {
+      const button = document.createElement('button');
+      button.className = 'absolute top-2 right-2 bg-slate-700 hover:bg-slate-600 text-white text-xs px-2 py-1 rounded';
+      button.textContent = '复制';
+      button.onclick = () => {
+        navigator.clipboard.writeText(block.textContent);
+        button.textContent = '已复制！';
+        setTimeout(() => button.textContent = '复制', 2000);
+      };
+      block.style.position = 'relative';
+      block.appendChild(button);
+    });
+  </script>
+</body>
+</html>
