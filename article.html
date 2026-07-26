@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>如何利用 ComfyUI 与 FLUX.1 搭建跨境电商自动化图文工作流 - NSKOREAN AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <style>
+    .bg-light-grid {
+      background-color: #f8fafc;
+      background-image: radial-gradient(#e2e8f0 1.2px, transparent 1.2px);
+      background-size: 24px 24px;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .article-body h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      letter-spacing: -0.025em;
+    }
+    .article-body h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .article-body p {
+      color: #334155;
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+      font-size: 1.05rem;
+    }
+    .article-body ul, .article-body ol {
+      margin-bottom: 1.25rem;
+      margin-left: 1.5rem;
+    }
+    .article-body li {
+      margin-bottom: 0.5rem;
+      color: #334155;
+      line-height: 1.8;
+    }
+    .code-block {
+      background-color: #1e293b;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      overflow-x: auto;
+      margin-bottom: 1.25rem;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    .toc-item {
+      padding: 0.5rem 0;
+      border-left: 2px solid transparent;
+      padding-left: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .toc-item:hover {
+      border-left-color: #2563eb;
+      color: #2563eb;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="bg-light-grid text-slate-800 antialiased selection:bg-blue-500 selection:text-white">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-2xl font-black tracking-tight text-slate-900">NSKOREAN</a>
+        <span class="px-2.5 py-0.5 text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-200 rounded-full">AI Insights</span>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 flex items-center gap-1">
+          <span>&larr;</span> 返回首页
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 文章 Header -->
+  <div class="bg-white border-b border-slate-200/80 py-10">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="flex items-center gap-3 text-xs font-semibold mb-4">
+        <span class="px-2.5 py-1 bg-blue-50 text-blue-700 border border-blue-200/60 rounded-full">ComfyUI 实战</span>
+        <span class="text-slate-400">•</span>
+        <span class="text-slate-500">2026年</span>
+        <span class="text-slate-400">•</span>
+        <span class="text-slate-500">8 分钟阅读</span>
+      </div>
+
+      <h1 class="text-3xl md:text-5xl font-black tracking-tight text-slate-900 mb-6 leading-tight">
+        如何利用 ComfyUI 与 FLUX.1 <br class="hidden md:block">
+        搭建<span class="text-gradient">跨境电商图文自动化</span>工作流？
+      </h1>
+
+      <div class="flex items-center justify-between pt-4 border-t border-slate-100 text-sm text-slate-600">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+            NS
+          </div>
+          <div>
+            <div class="font-bold text-slate-900">NSKOREAN AI Lab</div>
+            <div class="text-xs text-slate-400">跨境 AI 选型与工作流架构</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 正文与侧边栏结构 -->
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+      <!-- 文章正文 -->
+      <main class="lg:col-span-8 bg-white border border-slate-200/80 rounded-2xl p-6 md:p-10 shadow-sm">
+        <div class="p-5 rounded-xl bg-blue-50/50 border border-blue-100 text-slate-700 mb-8 text-sm leading-relaxed">
+          <strong class="text-blue-900 font-bold block mb-1">📌 核心提要：</strong>
+          本文将演示如何结合最新的 FLUX.1 大模型与 ComfyUI 节点，批量生成符合海外审美的高质量产品主图与营销图。
+        </div>
+
+        <article class="article-body">
+          <h2>1. 为什么选择 FLUX.1 替代 SDXL？</h2>
+          <p>
+            在 AI 图像生成领域，FLUX 模型凭借出色的文字渲染精度和复杂提示词遵循能力，成为了商业美工的首选。它能在商品图中准确呈现印有英文、韩文等多语言标签的产品包材。
+          </p>
+          <p>
+            相比 SDXL，FLUX.1 的优势包括：
+          </p>
+          <ul>
+            <li><strong>文字精准度：</strong>支持在图像中准确渲染 15+ 字符的英文、中文、韩文文本</li>
+            <li><strong>提示词遵循：</strong>复杂的多条件提示词遵循度提升 40%+</li>
+            <li><strong>细节保留：</strong>产品细节和纹理还原度更高，适合电商场景</li>
+            <li><strong>速度优化：</strong>生成速度比 SDXL 快 30%，成本更低</li>
+          </ul>
+
+          <h2>2. 核心节点配置与工作流设计</h2>
+          <p>
+            搭建该工作流主要分为三个核心阶段：原图 Segment 抠图、FLUX 逻辑引导、以及多语言文字节点覆盖。
+          </p>
+
+          <h3>2.1 第一阶段：图像预处理与背景移除</h3>
+          <p>使用 SAM (Segment Anything Model) 或 RemBG 节点进行智能抠图：</p>
+          <div class="code-block">
+# ComfyUI 节点配置
+[LoadImage] -> [RemBG Node] -> [Resize Image]
+  |
+  ├─ Input: 产品原图 (1024x1024)
+  ├─ Output: 透明背景产品图
+  └─ 后续处理：缩放到 768x768 以适配 FLUX 输入
+          </div>
+
+          <h3>2.2 第二阶段：FLUX 模型推理与图像生成</h3>
+          <p>配置 FLUX.1 模型节点进行高质量图像生成：</p>
+          <div class="code-block">
+[FLUX.1 Model] 配置参数：
+- Model: flux-1-dev (推荐用于商业应用)
+- Steps: 25-30 (平衡质量与速度)
+- CFG Scale: 7.5-8.5 (控制提示词遵循度)
+- Sampler: DPM++ 2M Karras
+- Scheduler: Karras
+
+提示词模板：
+"A professional product photo of {product_name}, 
+high quality, studio lighting, white background, 
+with {language} text overlay: {text_content}, 
+product photography, commercial, 8k"
+          </div>
+
+          <h3>2.3 第三阶段：多语言文字覆盖与后处理</h3>
+          <p>使用文字节点添加多语言标签和营销文案：</p>
+          <div class="code-block">
+[Generated Image] -> [Text Overlay Node] -> [Composite]
+  |
+  ├─ 支持语言: 中文、英文、韩文、日文
+  ├─ 字体: Noto Sans CJK (支持多语言)
+  ├─ 位置: 可自定义 (左上、右下等)
+  └─ 输出: 最终营销图 (1024x1024 PNG)
+          </div>
+
+          <h2>3. 实战案例：电商产品图批量生成</h2>
+          <p>
+            以跨境电商平台为例，使用该工作流批量生成产品主图：
+          </p>
+          <ul>
+            <li>输入：100 张产品原图 + CSV 表格（产品名称、价格、描述）</li>
+            <li>处理：自动抠图 → FLUX 生成背景 → 文字覆盖</li>
+            <li>输出：100 张高质量营销图（耗时 2-3 小时，成本 $5-10）</li>
+            <li>对比：传统美工外包需 500+ 元/张，周期 1-2 周</li>
+          </ul>
+
+          <h2>4. 性能优化与成本控制</h2>
+          <p>
+            为了在生产环境中高效运行，需要进行以下优化：
+          </p>
+          <ul>
+            <li><strong>批处理：</strong>使用 Queue 节点实现自动批量处理</li>
+            <li><strong>缓存优化：</strong>启用模型缓存，减少重复加载时间</li>
+            <li><strong>GPU 选择：</strong>推荐 RTX 4090 或 A100，成本与效率最优</li>
+            <li><strong>API 集成：</strong>通过 Replicate 或 Together AI 实现云端部署</li>
+          </ul>
+
+          <h2>5. 常见问题与解决方案</h2>
+          <p><strong>Q: 文字渲染不清晰怎么办？</strong></p>
+          <p>A: 增加 CFG Scale 到 8.5-9.0，或使用更高分辨率 (1024x1024) 的模型。</p>
+          <p><strong>Q: 如何支持更多语言？</strong></p>
+          <p>A: 使用 Google Fonts 中的 Noto Sans 系列字体，支持 150+ 语言。</p>
+          <p><strong>Q: 生成速度太慢怎么办？</strong></p>
+          <p>A: 使用 flux-1-schnell 模型（更快但质量略低），或部署到多 GPU 集群。</p>
+
+          <h2>总结</h2>
+          <p>
+            通过 ComfyUI + FLUX.1 的组合，跨境电商企业可以实现：
+          </p>
+          <ul>
+            <li>✅ 产品图批量自动化生成（成本降低 90%）</li>
+            <li>✅ 多语言营销素材快速输出（周期缩短 95%）</li>
+            <li>✅ 灵活的工作流定制与扩展（支持自定义节点）</li>
+            <li>✅ 企业级部署与 API 集成（支持云端与本地）</li>
+          </ul>
+          <p>
+            如果您需要针对自己业务场景的定制化方案，欢迎联系我们的 AI 咨询团队。
+          </p>
+        </article>
+      </main>
+
+      <!-- 侧边栏 -->
+      <aside class="lg:col-span-4">
+        <!-- 目录导航 -->
+        <div class="sticky top-24 bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm mb-6">
+          <h3 class="font-bold text-slate-900 mb-4">文章目录</h3>
+          <nav class="space-y-1 text-sm">
+            <a href="#section-1" class="toc-item">1. 为什么选择 FLUX.1？</a>
+            <a href="#section-2" class="toc-item">2. 核心节点配置</a>
+            <a href="#section-3" class="toc-item">3. 实战案例</a>
+            <a href="#section-4" class="toc-item">4. 性能优化</a>
+            <a href="#section-5" class="toc-item">5. 常见问题</a>
+          </nav>
+        </div>
+
+        <!-- 相关工具推荐 -->
+        <div class="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm">
+          <h3 class="font-bold text-slate-900 mb-4">相关工具推荐</h3>
+          <div class="space-y-4">
+            <div class="border border-slate-200 rounded-lg p-4 hover:border-blue-400 transition-all">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-2xl">⚡</span>
+                <h4 class="font-bold text-slate-900">FLUX.1 模型</h4>
+              </div>
+              <p class="text-xs text-slate-500">高精度图像生成模型，支持文字渲染</p>
+              <a href="index.html" class="text-xs text-blue-600 font-semibold mt-2 inline-block">了解更多 →</a>
+            </div>
+
+            <div class="border border-slate-200 rounded-lg p-4 hover:border-blue-400 transition-all">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-2xl">🔧</span>
+                <h4 class="font-bold text-slate-900">ComfyUI</h4>
+              </div>
+              <p class="text-xs text-slate-500">开源 AI 工作流搭建平台</p>
+              <a href="index.html" class="text-xs text-blue-600 font-semibold mt-2 inline-block">了解更多 →</a>
+            </div>
+
+            <div class="border border-slate-200 rounded-lg p-4 hover:border-blue-400 transition-all">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-2xl">🌐</span>
+                <h4 class="font-bold text-slate-900">Replicate API</h4>
+              </div>
+              <p class="text-xs text-slate-500">云端 AI 模型推理服务</p>
+              <a href="index.html" class="text-xs text-blue-600 font-semibold mt-2 inline-block">了解更多 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 咨询 CTA -->
+        <div class="mt-6 bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-2xl p-6 shadow-lg">
+          <h3 class="font-bold mb-2">需要定制化方案？</h3>
+          <p class="text-sm mb-4 text-blue-100">我们的 AI 咨询团队可以帮助您快速落地工作流</p>
+          <a href="#contact" class="block w-full bg-white text-blue-600 font-bold py-2 rounded-lg text-center hover:bg-blue-50 transition-colors">
+            联系我们
+          </a>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-20 border-t border-slate-200 bg-white py-10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="text-sm text-slate-500">
+        © 2026 <span class="font-bold text-slate-800">NSKOREAN</span>. All rights reserved.
+      </div>
+      <div class="flex gap-6 text-sm text-slate-500">
+        <a href="#" class="hover:text-slate-900">关于我们</a>
+        <a href="#" class="hover:text-slate-900">AI 选型咨询</a>
+        <a href="#" class="hover:text-slate-900">隐私政策</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 代码高亮
+    document.querySelectorAll('.code-block').forEach(block => {
+      hljs.highlightElement(block);
+    });
+  </script>
+</body>
+</html>
